@@ -383,3 +383,74 @@ dependencies {
 ```
 
 
+## 手动控制draw的开关
+### 打开
+```dart
+  // 初始化标题
+  AppBar _initAppbar(BuildContext context) {
+    return new AppBar(
+      backgroundColor: ColorConf.red,
+      leading: Builder(
+          builder: (context) => IconButton(
+                onPressed: () {
+                  debugPrint('openDrawer');
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: Icon(
+                  Icons.menu,
+                  color: ColorConf.colorWhite,
+                ),
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              )),
+      title: new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            '当前位置:',
+            style: _textStyleForMsg,
+          ),
+          new Padding(
+            padding: const EdgeInsets.only(left: 6),
+            child: Text(
+              '广州',
+              style: _textStyleForTitle,
+            ),
+          )
+        ],
+      ),
+      centerTitle: true,
+      elevation: 1,
+      actions: <Widget>[
+        Builder(
+          builder: (context) => IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                icon: Icon(
+                  Icons.chat_bubble_outline,
+                  color: ColorConf.colorWhite,
+                ),
+              ),
+        )
+      ],
+    );
+  }
+```
+
+### 关闭
+```dart
+AppBar _initAppBar(BuildContext context) {
+  return AppBar(
+    backgroundColor: ColorConf.colorRed,
+    leading: Builder(builder: (context) =>
+        IconButton(icon: Icon(
+          Icons.clear,
+          color: ColorConf.colorWhite,
+        ), onPressed: () {
+            Navigator.pop(context);
+        })),
+  );
+}
+
+```
