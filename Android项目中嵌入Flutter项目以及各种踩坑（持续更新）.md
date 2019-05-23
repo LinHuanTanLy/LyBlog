@@ -454,3 +454,65 @@ AppBar _initAppBar(BuildContext context) {
 }
 
 ```
+
+
+## CustomScrollView 嵌套GridView 滑动冲突
+```dart
+Container _initServiceGriView() {
+  List<String> iconsStr = [
+    'assets/invite_frends.png',
+    'assets/price_standard.png',
+    'assets/service_center.png',
+    'assets/invite_driver.png',
+    'assets/user_feedback.png',
+  ];
+  List<String> iconsMsg = ['邀请好友', '收费说明', '服务中心', '成为司机', '用户反馈'];
+
+  return Container(
+    alignment: Alignment.centerLeft,
+    margin: const EdgeInsets.only(top: 20, left: 12),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '业务范围',
+            style: _textStyleForTitle,
+            textAlign: TextAlign.left,
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 20),
+          child: GridView.builder(
+              shrinkWrap: true,
+            primary: false,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4, childAspectRatio: 1.0),
+              itemCount: iconsMsg.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: <Widget>[
+                    Image.asset(
+                      iconsStr[index],
+                      width: 30,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        iconsMsg[index],
+                        style: _textStyleForIcon,
+                      ),
+                    )
+                  ],
+                );
+              }),
+        )
+      ],
+    ),
+  );
+}
+```
+其中两个属性：
+1. shrinkWrap 常用于内容大小不确定情况，如果滚动视图(ListView/GridView/ScrollView 等)没有收缩包装，则滚动视图将扩展到允许的最大大小。如果是无界约束，则 shrinkWrap 必须为 true。
+2. primary 如果为 true，即使滚动视图没有足够的内容来支撑滚动，滚动视图也是可滚动的。否则，默认为 false 情况下，只有具有足够内容的用户才能滚动视图。
